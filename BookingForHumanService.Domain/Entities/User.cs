@@ -12,17 +12,19 @@ public class User :IdentityUser<int>
     {
 
      
-        public string HashPassword { get;  set; } = "";
         public UserRole Role { get;  set; } 
 
         public string? RefreshToken  { get; set; }
         public DateTime? RefreshTokenExpiryTime { get; set; }
+     
+       
 
-      
+        
+
         //public User( int id, string hashPassword, UserRole role, string? refreshToken, DateTime? refreshTokenExpiryTime)
         //{
         //    Id = id;
-            
+
         //    HashPassword = hashPassword;
         //    Role = role;
         //    RefreshToken = refreshToken;
@@ -35,7 +37,6 @@ public class User :IdentityUser<int>
 
             return new User
             {
-                HashPassword = hashPassword,
                 Role = role
             };
         }

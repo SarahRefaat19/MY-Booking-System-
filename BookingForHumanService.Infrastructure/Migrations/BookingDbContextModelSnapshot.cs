@@ -113,7 +113,8 @@ namespace BookingForHumanService.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Customers");
                 });
@@ -202,7 +203,8 @@ namespace BookingForHumanService.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Providers");
                 });
@@ -262,10 +264,6 @@ namespace BookingForHumanService.Infrastructure.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<string>("HashPassword")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -523,13 +521,13 @@ namespace BookingForHumanService.Infrastructure.Migrations
                     b.HasOne("BookingForHumanService.Domain.Entities.Customer", "Customer")
                         .WithMany("Bookings")
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("BookingForHumanService.Domain.Entities.Provider", "Provider")
                         .WithMany("Bookings")
                         .HasForeignKey("ProviderId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Customer");
@@ -540,9 +538,9 @@ namespace BookingForHumanService.Infrastructure.Migrations
             modelBuilder.Entity("BookingForHumanService.Domain.Entities.Customer", b =>
                 {
                     b.HasOne("BookingForHumanService.Domain.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .WithOne()
+                        .HasForeignKey("BookingForHumanService.Domain.Entities.Customer", "UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.OwnsOne("BookingForHumanService.Domain.ValueObjects.CustomerValueObjects.CustomerEmail", "Email", b1 =>
@@ -624,9 +622,9 @@ namespace BookingForHumanService.Infrastructure.Migrations
             modelBuilder.Entity("BookingForHumanService.Domain.Entities.Provider", b =>
                 {
                     b.HasOne("BookingForHumanService.Domain.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .WithOne()
+                        .HasForeignKey("BookingForHumanService.Domain.Entities.Provider", "UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.OwnsOne("BookingForHumanService.Domain.ValueObjects.ProviderValueObjects.ProviderEmail", "Email", b1 =>

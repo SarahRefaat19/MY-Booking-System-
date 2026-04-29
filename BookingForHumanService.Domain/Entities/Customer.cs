@@ -7,6 +7,7 @@ namespace BookingForHumanService.Domain.Entities
     {
         //Basic Deatails-----------------------------
         public int Id { get; private set; }
+        public int UserId { get; private set; }   
         public User User { get; private set; }
         public CustomerName Name { get; private set; }
         public CustomerEmail Email { get; private set; }

@@ -12,6 +12,7 @@ namespace BookingForHumanService.Domain.Entities
     {
 
         public int Id { get; private set; }
+        public int UserId { get; private set; }   
         public User User { get; private set; }
         public ProviderName Name { get; private set; }
 

@@ -38,14 +38,17 @@ namespace BookingForHumanService.Infrastructure.Configurations
                 Email.Property(e => e.Value).HasColumnName("Email").HasMaxLength(200).IsRequired();
 
             });
-            builder.HasMany(b => b.Bookings)
-                   .WithOne(c => c.Provider)
-                   .HasForeignKey(c => c.ProviderId);
+       
 
             builder.HasMany(b => b.Bookings)
        .WithOne(p => p.Provider)
        .HasForeignKey(b => b.ProviderId)
-       .OnDelete(DeleteBehavior.NoAction);
+       .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(c => c.User)
+           .WithOne()
+           .HasForeignKey<Provider>(c => c.UserId)
+           .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

@@ -11,8 +11,8 @@ namespace BookingForHumanService.Domain.Entities
           
             public int Id { get; private set; }
         //Relations
-            public Customer Customer { get; private set; }
-        public Provider Provider { get;  set; }
+            public Customer? Customer { get; private set; }
+        public Provider? Provider { get;  set; }
         public int ProviderId { get; private set; }
         public int CustomerId { get; private set; }
 

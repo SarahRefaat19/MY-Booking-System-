@@ -35,13 +35,19 @@ namespace BookingForHumanService.Infrastructure.Configurations
                 Email.Property(e => e.Value).HasColumnName("Email").HasMaxLength(200).IsRequired();
 
             });
-            builder.HasMany(b=>b.Bookings).WithOne(c=>c.Customer).HasForeignKey(c=>c.Id);
-
-
-
             builder.HasMany(c => c.Bookings)
-                     .WithOne(b => b.Customer)
-                     .HasForeignKey(b => b.CustomerId);
+                   .WithOne(b => b.Customer)
+                   .HasForeignKey(b => b.CustomerId)
+                   .OnDelete(DeleteBehavior.Restrict);
+
+          
+
+            builder.HasOne(c => c.User)
+       .WithOne()
+       .HasForeignKey<Customer>(c => c.UserId)
+       .OnDelete(DeleteBehavior.Restrict);
+
+
 
         }
 

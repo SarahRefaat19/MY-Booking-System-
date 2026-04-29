@@ -18,12 +18,12 @@ namespace BookingForHumanService.Infrastructure.Configurations
             builder.HasOne(b => b.Customer)
                    .WithMany(c => c.Bookings)
                    .HasForeignKey(b => b.CustomerId)
-                   .OnDelete(DeleteBehavior.NoAction);
+                   .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(b => b.Provider)
                    .WithMany(p => p.Bookings)
                    .HasForeignKey(b => b.ProviderId)
-                   .OnDelete(DeleteBehavior.NoAction);
+                   .OnDelete(DeleteBehavior.Restrict);
 
 
         }
