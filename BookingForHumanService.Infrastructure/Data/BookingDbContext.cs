@@ -9,7 +9,8 @@ namespace BookingForHumanService.Infrastructure.Data
 {
     public class BookingDbContext : IdentityDbContext
     {
-        public BookingDbContext(DbContextOptions options) : base(options)
+        public BookingDbContext(DbContextOptions<BookingDbContext> options)
+     : base(options)
         {
         }
 
@@ -24,7 +25,7 @@ namespace BookingForHumanService.Infrastructure.Data
         override protected void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
+         
 
             builder.ApplyConfigurationsFromAssembly(typeof(BookingDbContext).Assembly);
         }

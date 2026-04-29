@@ -15,10 +15,10 @@ namespace BookingForHumanService.Infrastructure.UnitOfWorks
             _context = context;
             Customers =new CustomerRepository(_context);
             Providers = new ProviderRepository(_context);
-            Bookings = new BookingRepository(_context);
-            Reviews = new ReviewsRepository(_context);
-            Addresses = new AddressRepository(_context);
-            Notifications = new NotificationRepository(_context);
+            //Bookings = new BookingRepository(_context);
+            //Reviews = new ReviewsRepository(_context);
+            //Addresses = new AddressRepository(_context);
+            //Notifications = new NotificationRepository(_context);
 
 
         }

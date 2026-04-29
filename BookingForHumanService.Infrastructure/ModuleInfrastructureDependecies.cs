@@ -1,6 +1,7 @@
 ﻿using BookingForHumanService.Domain.Interfaces;
 using BookingForHumanService.Infrastructure.Data;
 using BookingForHumanService.Infrastructure.Repositories;
+using BookingForHumanService.Infrastructure.UnitOfWorks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,6 +20,10 @@ namespace BookingForHumanService.Infrastructure
            options.UseSqlServer(config.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<ICustomerRepository, CustomerRepository>();
+
+            services.AddScoped<IProviderRepository, ProviderRepository>();
+            services.AddScoped<IUnitOfWork, UnitofWork>();
+
 
             return services;
         }

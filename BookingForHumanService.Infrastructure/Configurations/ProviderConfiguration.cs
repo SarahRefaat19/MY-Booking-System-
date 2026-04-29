@@ -15,8 +15,20 @@ namespace BookingForHumanService.Infrastructure.Configurations
         public void Configure(EntityTypeBuilder<Provider> builder)
         {
             builder.HasKey(c => c.Id);
-            builder.Property(c => c.Name).HasMaxLength(50).IsRequired();
-            builder.Property(c => c.Phone).HasMaxLength(20).IsRequired();
+            builder.OwnsOne(c => c.Name, n =>
+            {
+                n.Property(p => p.Name)
+                 .HasColumnName("Name")
+                 .HasMaxLength(50)
+                 .IsRequired();
+            });
+            builder.OwnsOne(c => c.Phone, n =>
+            {
+                n.Property(p => p.Value)
+                 .HasColumnName("Phone")
+                 .HasMaxLength(50)
+                 .IsRequired();
+            }); 
             builder.Property(c => c.Description).HasMaxLength(500).IsRequired();
             builder.Property(c => c.ExperienceYears).IsRequired();
 
@@ -30,8 +42,10 @@ namespace BookingForHumanService.Infrastructure.Configurations
                    .WithOne(c => c.Provider)
                    .HasForeignKey(c => c.ProviderId);
 
-            builder.HasIndex(p => p.Phone).IsUnique();
-
+            builder.HasMany(b => b.Bookings)
+       .WithOne(p => p.Provider)
+       .HasForeignKey(b => b.ProviderId)
+       .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

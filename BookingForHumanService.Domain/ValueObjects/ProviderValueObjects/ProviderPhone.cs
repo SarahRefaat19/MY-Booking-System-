@@ -7,12 +7,13 @@ namespace BookingForHumanService.Domain.ValueObjects.ProviderValueObjects
     public  sealed class ProviderPhone
     {
 
-        public string Phone { get; }
+        public string Value { get; }
         public ProviderPhone(string phone)
         {
 
-            Phone = phone;
+            Value = phone;
         }
+        public ProviderPhone() { } // EF Core only
 
         public static ProviderPhone Create(string phone)
 
@@ -33,7 +34,7 @@ namespace BookingForHumanService.Domain.ValueObjects.ProviderValueObjects
 
             return new ProviderPhone(phone);
         }
-        public override int GetHashCode() => Phone.GetHashCode();
+        public override int GetHashCode() => Value.GetHashCode();
 
     }
 }

@@ -4,13 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace BookingForHumanService.Application.UseCases.ProviderUseCases
+namespace BookingForHumanService.Application.UseCases.ProviderUseCases.SetAvailabilityUseCase
 {
-    public class SetAvailabilty
+    public class SetAvailabilty :ISetAvailability
     {
         private IUnitOfWork _unitOfWork;
 
-        public SetAvailabilty( IUnitOfWork unitOfWork)
+        public SetAvailabilty(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
 
@@ -31,4 +31,5 @@ namespace BookingForHumanService.Application.UseCases.ProviderUseCases
             await _unitOfWork.SaveChangesAsync();
 
         }
+    }
 }

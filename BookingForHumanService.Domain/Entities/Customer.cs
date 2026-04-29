@@ -39,6 +39,7 @@ namespace BookingForHumanService.Domain.Entities
             User = user ?? throw new ArgumentNullException(nameof(user));
 
         }
+        private Customer() { } // EF Core only
 
         //Busniss rules--------------------
         public void UpdateProfile(CustomerName name, CustomerEmail email, CustomerPhone phone)

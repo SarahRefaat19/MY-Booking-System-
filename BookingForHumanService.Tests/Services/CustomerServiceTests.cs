@@ -10,6 +10,7 @@ using BookingForHumanService.Domain.ValueObjects.CustomerValueObjects;
 using BookingForHumanService.Infrastructure.Repositories;
 using FluentAssertions;
 using Moq;
+using Xunit;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -48,7 +49,7 @@ namespace BookingForHumanService.Tests.Services
 
             var customer = new Customer(
 
-            user: new User { Id = 1 },
+            user: User.Create ( 1, "hashedPassword", UserRole.Customer ),
             name,
             email,
             phone: new CustomerPhone("0112233584"),
@@ -100,7 +101,7 @@ namespace BookingForHumanService.Tests.Services
         {
             //Arrange
 
-            var someUser = new User { Id = 1 };
+            var someUser = User.Create(1, "hashedPassword", UserRole.Customer);
             var name = CustomerName.Create("Sarah");
             var email = CustomerEmail.Create("sararefaat@gmail.com");
 
@@ -136,47 +137,45 @@ namespace BookingForHumanService.Tests.Services
 
         }
 
+
         [Fact]
 
 
-        public async Task GetCustomerByIdAsync_WhencustomerNotFound_ShouldthrowException()
+        public async Task GetCustomerByIdAsync_WhencustomerNotFound_ShouldThrowException()
         {
-            //Arrange
-
+            // Arrange
             var mockrepos = new Mock<ICustomerRepository>();
             _mockUnitofwork.Setup(c => c.Customers).Returns(mockrepos.Object);
 
-            mockrepos.Setup(c => c.GetByIdAsync(It.IsAny<int>())).ReturnsAsync((Customer?)null);
-
-
-
-
-            //Act  & Assert
-
-
-            await Assert.ThrowsAsync<Exception>(() => _customerService.GetCustomerByIdAsync(1));
-
-
-
+            mockrepos
+               .Setup(c => c.GetByIdAsync(It.IsAny<int>()))
+        .ReturnsAsync((Customer?)null);
+            // Act & Assert
+            await Assert.ThrowsAsync<Exception>(async () =>
+            {
+                await _customerService.GetCustomerByIdAsync(1);
+            });
         }
 
-        [Fact]
-        public async Task GetCustomerByIdAsync_WhencustomerNull_ShouldthrowException()
-        {
-            //Arrange
+        
 
-            var mockrepos = new Mock<ICustomerRepository>();
-            _mockUnitofwork.Setup(c => c.Customers).Returns(mockrepos.Object);
+        //[Fact]
+        //public async Task GetCustomerByIdAsync_WhencustomerNull_ShouldthrowException()
+        //{
+        //    //Arrange
 
-            mockrepos.Setup(c => c.GetByIdAsync(It.IsAny<int>())).ReturnsAsync((Customer?)null);
+        //    var mockrepos = new Mock<ICustomerRepository>();
+        //    _mockUnitofwork.Setup(c => c.Customers).Returns(mockrepos.Object);
 
-            //Act  & Assert
+        //    mockrepos.Setup(c => c.GetByIdAsync(It.IsAny<int>())).ReturnsAsync((Customer?)null);
+
+        //    //Act  & Assert
 
 
-            await Assert.ThrowsAsync<Exception>(() => _customerService.GetCustomerByIdAsync(1));
+        //    await Assert.ThrowsAsync<Exception>(() => _customerService.GetCustomerByIdAsync(1));
 
 
-        }
+        //}
 
 
         //------------------------
@@ -193,7 +192,7 @@ namespace BookingForHumanService.Tests.Services
 
             var customer = new Customer
           (
-            user: new User { Id = 1 },
+            user: User.Create(1, "hashedPassword", UserRole.Customer),
             name,
             email,
             phone: new CustomerPhone("0112233584"),
@@ -208,7 +207,7 @@ namespace BookingForHumanService.Tests.Services
             mockrepos.Setup(o => o.GetByIdAsync(1)).ReturnsAsync(customer);
             //mapping
 
-            _mappermock.Setup(o => o.Map(customerupdatedto, customer)).Callback(() => { customer.ChangeName(CustomerName.Create("sooo")); customer.ChangeName(CustomerEmail.Create("sararaeafaa")); });
+            _mappermock.Setup(o => o.Map(customerupdatedto, customer));
             //Update
             var customerreaddto = new CustomerReadDto
             {
@@ -218,17 +217,13 @@ namespace BookingForHumanService.Tests.Services
             };
             _mappermock.Setup(o => o.Map<CustomerReadDto>(customer)).Returns(customerreaddto);
 
-            //ACT 
             var result = await _customerService.UpdateCustomerAsync(1, customerupdatedto);
-            //Assert
             result.Should().NotBeNull();
 
-            // 2. القيم اتحدثت فعلاً
             result.Name.Should().Be("soo");
             result.Email.Should().Be("sararefaa653@gmail.com");
             result.Phone.Should().Be("0172626333");
 
-            // 3. التأكد إننا جبنا العميل من الداتا
             mockrepos.Verify(x => x.GetByIdAsync(1), Times.Once);
 
         }
