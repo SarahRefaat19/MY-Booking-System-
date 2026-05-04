@@ -9,14 +9,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Identity\**" />
     <Compile Remove="Logging\**" />
+    <EmbeddedResource Remove="Identity\**" />
     <EmbeddedResource Remove="Logging\**" />
+    <None Remove="Identity\**" />
     <None Remove="Logging\**" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="ExternalServices\" />
-    <Folder Include="Identity\" />
   </ItemGroup>
 
   <ItemGroup>

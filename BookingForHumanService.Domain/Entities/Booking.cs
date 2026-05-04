@@ -87,7 +87,15 @@ namespace BookingForHumanService.Domain.Entities
             }
             Status = BookingStatus.Accepted;
         }
+        public void Complete()
+        {
+            if (Status != BookingStatus.Accepted)
+            {
+                throw new InvalidOperationException("Only Pending Booking Can Be Completed ");
 
+            }
+            Status = BookingStatus.Completed;
+        }
 
 
     }

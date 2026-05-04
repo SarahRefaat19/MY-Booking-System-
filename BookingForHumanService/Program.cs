@@ -23,11 +23,10 @@ namespace BookingForHumanService.API
 
             builder.Host.UseSerilog();
 
-            builder.Services.AddDbContext<BookingDbContext>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+          
 
            
-         );
+        
             // add application and infrastructure dependencies
             builder.Services.AddApplicationDependecies();
             builder.Services.AddInfrastructureDependecies(builder.Configuration);
