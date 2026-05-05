@@ -113,6 +113,7 @@ namespace BookingForHumanService.API.Controllers
 
 
 
+        [Authorize(Roles = "Admin")]
 
 
         //GetAll
@@ -128,6 +129,7 @@ namespace BookingForHumanService.API.Controllers
 
         // Business logic
         //  GetTopRated
+
         [HttpGet("Get Top Rated Providers")]
         public async Task<IActionResult> GetTopRatedProviders(int count)
         {
@@ -151,6 +153,7 @@ namespace BookingForHumanService.API.Controllers
 
 
 
+        [Authorize(Roles = "Provider")]
 
         //SetAvailability
 

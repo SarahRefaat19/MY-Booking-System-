@@ -43,6 +43,13 @@ namespace BookingForHumanService.Application.Services
 
             if (!result.Succeeded)
                 throw new Exception(string.Join(", ", result.Errors.Select(e => e.Description)));
+
+
+            var rolename = registerDto.role.ToString();
+
+          await  _userManager.AddToRoleAsync(user, rolename);
+
+
         }
         
         public async Task<AuthResponseDto> LoginAsync([FromBody] LoginDto loginDto)

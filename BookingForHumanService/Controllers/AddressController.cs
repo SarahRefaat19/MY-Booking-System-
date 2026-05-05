@@ -1,6 +1,7 @@
 ﻿
 using BookingForHumanService.Application.DTOs.AddressDtos;
 using BookingForHumanService.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookingForHumanService.API.Controllers
@@ -19,6 +20,7 @@ namespace BookingForHumanService.API.Controllers
             _addressService = addressService;
             _logger = logger;
         }
+        [Authorize(Roles = "Customer")]
 
         [HttpPost("{customerId}")]
         public async Task<ActionResult<ReadAddressDto>> AddAddress(int customerId, [FromBody] AddAddressDto dto)
@@ -31,6 +33,7 @@ namespace BookingForHumanService.API.Controllers
 
             return Ok(result);
         }
+        [Authorize(Roles = "Admin,Provider")]
 
         [HttpGet("{customerId}")]
         public async Task<ActionResult<IReadOnlyList<ReadAddressDto>>> GetUserAddresses(int customerId)
@@ -43,6 +46,7 @@ namespace BookingForHumanService.API.Controllers
 
             return Ok(result);
         }
+        [Authorize(Roles = "Customer")]
 
         [HttpPut("{customerId}/default/{addressId}")]
         public async Task<IActionResult> SetDefaultAddress(int customerId, int addressId)
@@ -55,6 +59,8 @@ namespace BookingForHumanService.API.Controllers
 
             return Ok("Default address updated successfully");
         }
+
+        [Authorize(Roles = "Customer")]
 
         [HttpDelete("{customerId}/{addressId}")]
         public async Task<IActionResult> DeleteAddress(int customerId, int addressId)

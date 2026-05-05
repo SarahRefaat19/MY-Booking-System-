@@ -5,13 +5,11 @@ using System.Text;
 
 namespace BookingForHumanService.Domain.Interfaces
 {
-    public  interface INotificationRepository: IGenericRepository<Notification>
+    public  interface INotificationRepository
     {
 
-        Task <IEnumerable<Notification>> GetByUserIdsync(int UserId);
-        Task MarkAsRead(int notificationId);
-       
-
+        Task <Notification> GetByIdAsync(int Id);
+        Task AddAsync(Notification notification);
 
     }
 }
