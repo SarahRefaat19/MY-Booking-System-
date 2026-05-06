@@ -6,28 +6,30 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 namespace BookingForHumanService.Domain.Entities
 {
-    public  class Booking
+    public class Booking
     {
-          
-            public int Id { get; private set; }
+
+        public int Id { get; private set; }
         //Relations
-            public Customer? Customer { get; private set; }
-        public Provider? Provider { get;  set; }
+        public Customer? Customer { get; private set; }
+        public Provider? Provider { get; set; }
         public int ProviderId { get; private set; }
         public int CustomerId { get; private set; }
 
-            public DateTime BookingDate { get; private set; }
-            public DateTime ServiceDate { get; private set; }
+        public DateTime BookingDate { get; private set; }
+        public DateTime ServiceDate { get; private set; }
 
-            public BookingStatus Status { get; private set; }
+        public BookingStatus Status { get; private set; }
 
-            public decimal Price { get; private set; }
+        public decimal Price { get; private set; }
 
-            public string Details { get; private set; }
+        public string Details { get; private set; }
+
+        public Review? Review { get; private set; } // One to One 
 
         private Booking() { }
 
-        private Booking(Customer _Customer, Provider _Provider,  DateTime _ServiceDate, decimal _Price, string _Details)
+        private Booking(Customer _Customer, Provider _Provider, DateTime _ServiceDate, decimal _Price, string _Details)
         {
             Customer = _Customer ?? throw new ArgumentNullException(nameof(_Customer));
             Provider = _Provider ?? throw new ArgumentNullException(nameof(_Provider));
@@ -57,7 +59,7 @@ namespace BookingForHumanService.Domain.Entities
         }
         //Cancel
 
-        public void  Cancel()
+        public void Cancel()
         {
             //For Cancel Booking
             if (Status == BookingStatus.Completed || Status == BookingStatus.Cancelled)
@@ -69,7 +71,7 @@ namespace BookingForHumanService.Domain.Entities
         //Reject
         public void Reject()
         {
-            if(Status!= BookingStatus.Pending)
+            if (Status != BookingStatus.Pending)
             {
                 throw new InvalidOperationException("Only Pending Booking Can Be Rejected ");
 
@@ -89,16 +91,28 @@ namespace BookingForHumanService.Domain.Entities
         }
         public void Complete()
         {
-            if (Status != BookingStatus.Accepted)
+            if (Status != BookingStatus.InProgress) // flow: Pending->Accepted->InProgress->Completed
             {
-                throw new InvalidOperationException("Only Pending Booking Can Be Completed ");
-
+                throw new InvalidOperationException("Only InProgress Booking Can Be Completed ");
             }
             Status = BookingStatus.Completed;
         }
 
+        // Add review Method to support the relationship [Ahmed Refaat Added]
 
-    }
-           
+        public void AddReview(Review review)
+        {
+            if (review == null)
+                throw new ArgumentNullException(nameof(review));
+
+            if (Status != BookingStatus.Completed)
+                throw new InvalidOperationException("Cannot review incomplete booking");
+
+            if (Review != null)
+                throw new InvalidOperationException("Booking already reviewed");
+
+            Review = review;
         }
-        
+    }
+    
+}

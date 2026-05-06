@@ -13,16 +13,24 @@ namespace BookingForHumanService.Domain.Entities
         public string Comment { get; private set; }
         public DateTime CreatedAt { get; private set; }
         public bool IsActive { get; private set; }
-        public Provider Provider { get; private set; }
-        public Customer Customer { get; private set; }
+        public int BookingId { get; private set; }
+        public Booking Booking { get; private set; }
+
+        /// <Why??>
+        /// becuase Every Review On Specific Booking 
+        /// Every Booking has : Provider and Customer Already 
+        /// </why??>
+
+        //public Provider Provider { get; private set; }
+        //public Customer Customer { get; private set; }
         private Review() { } 
 
-        public Review(Provider provider, Customer customer, double rating, string comment)
+        public Review(Booking booking, double rating, string comment)
         {
-            Provider = provider ?? throw new ArgumentNullException(nameof(provider));
 
+            Booking = booking ?? throw new ArgumentNullException(nameof(booking));
 
-            Customer = customer ?? throw new ArgumentNullException(nameof(customer));
+            BookingId = booking.Id;
 
             if (rating < 0 || rating > 5)
                 throw new ArgumentException("Rating must be between 0 and 5", nameof(rating));
