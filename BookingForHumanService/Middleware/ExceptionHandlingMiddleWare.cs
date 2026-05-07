@@ -1,8 +1,9 @@
 ﻿
+using BookingForHumanService.API.Response;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using System.Net;
 using System.Text.Json;
-using Microsoft.Extensions.Logging;
 
 namespace BookingForHumanService.API.Middleware
 {
@@ -33,10 +34,9 @@ namespace BookingForHumanService.API.Middleware
                 //return it in a json
                 context.Response.ContentType= "application/json";
                 // parse message to json
-                var response = new { message = ex.Message };
+                var response = ApiResponse<string>.Fail(ex.Message);
+
                 await context.Response.WriteAsync(JsonSerializer.Serialize(response));
-
-
             }
 
 
