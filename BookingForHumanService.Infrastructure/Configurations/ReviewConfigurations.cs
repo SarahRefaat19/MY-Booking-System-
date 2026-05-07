@@ -37,7 +37,7 @@ namespace BookingForHumanService.Infrastructure.Configurations
             // 1 ->  M : Provider -> Reviews 
             review.HasOne<Provider>()
                   .WithMany(c => c.Reviews)
-                  .HasForeignKey(r => r.ProviderId)
+                  .HasForeignKey(r => r.CustomerId)
                   .OnDelete(DeleteBehavior.Restrict);
 
         }
