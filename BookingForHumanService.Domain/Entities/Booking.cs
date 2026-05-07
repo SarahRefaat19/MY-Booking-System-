@@ -8,7 +8,6 @@ namespace BookingForHumanService.Domain.Entities
 {
     public class Booking
     {
-
         public int Id { get; private set; }
         //Relations
         public Customer? Customer { get; private set; }

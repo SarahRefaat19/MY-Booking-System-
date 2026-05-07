@@ -8,11 +8,11 @@ using System.Text;
 
 namespace BookingForHumanService.Infrastructure.Repositories
 {
-    public class ReviewsRepository : IReviewRepository
+    public class ReviewRepository : IReviewRepository
     {
         private readonly BookingDbContext _context;
 
-        public ReviewsRepository(BookingDbContext context)
+        public ReviewRepository(BookingDbContext context)
         {
             _context = context;
         }
@@ -62,7 +62,7 @@ namespace BookingForHumanService.Infrastructure.Repositories
         public async Task<IEnumerable<Review>> GetByProviderIdAsync(int providerId)
             => await _context.Reviews
                 .Include(r => r.Booking)
-                .Where(r => r.CustomerId == providerId)
+                .Where(r => r.ProviderId == providerId)
                 .ToListAsync();
 
 

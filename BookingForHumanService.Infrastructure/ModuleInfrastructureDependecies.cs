@@ -24,6 +24,8 @@ namespace BookingForHumanService.Infrastructure
             services.AddScoped<IProviderRepository, ProviderRepository>();
             services.AddScoped<IBookingRepository, BookingRepository>();
 
+            services.AddScoped<IReviewRepository, ReviewRepository>();
+
             services.AddScoped<IUnitOfWork, UnitofWork>();
 
 

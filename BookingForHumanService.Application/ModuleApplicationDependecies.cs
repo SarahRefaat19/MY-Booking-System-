@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using FluentValidation;
+using BookingForHumanService.Domain.Interfaces;
 
 namespace BookingForHumanService.Application
 {
@@ -18,9 +19,11 @@ namespace BookingForHumanService.Application
         {
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IProviderService, ProviderService>();
+            services.AddScoped<IReviewService, ReviewService>();
 
             services.AddAutoMapper(typeof(CustomerMapping));
             services.AddAutoMapper(typeof(ProviderMapping));
+            services.AddAutoMapper(typeof(ReviewProfile));
 
             services.AddValidatorsFromAssembly(typeof(ModuleApplicationDependecies).Assembly);
 
