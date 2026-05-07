@@ -23,6 +23,12 @@ namespace BookingForHumanService.Domain.Entities
 
         //public Provider Provider { get; private set; }
         //public Customer Customer { get; private set; }
+
+
+        /// for analysis and support the collections exist at customer and provider [forgien key]
+        public int CustomerId { get; private set; }
+        public int ProviderId { get; private set; } 
+
         private Review() { } 
 
         public Review(Booking booking, double rating, string comment)
@@ -30,7 +36,9 @@ namespace BookingForHumanService.Domain.Entities
 
             Booking = booking ?? throw new ArgumentNullException(nameof(booking));
 
-            BookingId = booking.Id;
+            // ده اسمه C# Record 
+            (BookingId, ProviderId, CustomerId) =
+            (booking.Id, booking.ProviderId, booking.CustomerId);
 
             if (rating < 0 || rating > 5)
                 throw new ArgumentException("Rating must be between 0 and 5", nameof(rating));
