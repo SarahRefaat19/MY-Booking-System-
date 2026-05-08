@@ -1,13 +1,14 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using BookingForHumanService.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using BookingForHumanService.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace BookingForHumanService.Infrastructure.Data
 {
-    public class BookingDbContext : IdentityDbContext
+    public class BookingDbContext : IdentityDbContext<User, IdentityRole<int>, int>
     {
         public BookingDbContext(DbContextOptions<BookingDbContext> options)
      : base(options)

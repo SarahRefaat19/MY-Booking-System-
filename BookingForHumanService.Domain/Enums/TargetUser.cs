@@ -8,6 +8,6 @@ namespace BookingForHumanService.Domain.Enums
 {
     public enum TargetType
     {
-
+        AllCustomers,AllProviders,Customer,Provider
     }
 }

@@ -15,7 +15,7 @@ namespace BookingForHumanService.Domain.Interfaces
         //INotificationRepository Notifications { get; }
         //IReviewRepository Reviews { get; }
 
-
+       
         Task<int> SaveChangesAsync();
 
     }

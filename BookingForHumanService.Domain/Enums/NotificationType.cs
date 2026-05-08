@@ -8,7 +8,7 @@ namespace BookingForHumanService.Domain.Enums
 {
     public enum NotificationType
     {
-
+        Transactional,System,Markting
 
     }
 }

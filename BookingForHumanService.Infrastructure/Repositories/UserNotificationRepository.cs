@@ -1,4 +1,5 @@
 ﻿using BookingForHumanService.Domain.Entities;
+using BookingForHumanService.Domain.Interfaces;
 using BookingForHumanService.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BookingForHumanService.Infrastructure.Repositories
 {
-    public  class UserNotificationRepository
+    public class UserNotificationRepository : IUserNotificationRepository
     {
         private readonly BookingDbContext _context;
 
@@ -22,7 +23,7 @@ namespace BookingForHumanService.Infrastructure.Repositories
             await _context.UserNotifications.AddRangeAsync(notifications);
             await _context.SaveChangesAsync();
         }
-        public async   Task<List<UserNotification>> GetUserNotifications(string userId)
+        public async Task<List<UserNotification>> GetUserNotifications(int userId)
         {
             var userNotifications = await _context.UserNotifications.Where(a => a.UserId == userId).ToListAsync();
             return userNotifications;
@@ -30,6 +31,17 @@ namespace BookingForHumanService.Infrastructure.Repositories
 
         }
 
+        public async Task<UserNotification?> GetByIdAsync(int Id)
+        {
+            var userNotifications = await _context.UserNotifications.FindAsync(Id);
+            return userNotifications;
+
+
+        }
+   public async  Task UpdateAsync(UserNotification userNotification)
+        {
+             _context.UserNotifications.Update(userNotification);
+        }
 
     }
 }
