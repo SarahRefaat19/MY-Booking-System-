@@ -4,6 +4,7 @@ using BookingForHumanService.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingForHumanService.Infrastructure.Migrations
 {
     [DbContext(typeof(BookingDbContext))]
-    partial class BookingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260507001030_AddSarahsWorkAndRefactorReview")]
+    partial class AddSarahsWorkAndRefactorReview
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,7 +58,7 @@ namespace BookingForHumanService.Infrastructure.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Addresses", (string)null);
+                    b.ToTable("Addresses");
                 });
 
             modelBuilder.Entity("BookingForHumanService.Domain.Entities.Booking", b =>
@@ -94,7 +97,7 @@ namespace BookingForHumanService.Infrastructure.Migrations
 
                     b.HasIndex("ProviderId");
 
-                    b.ToTable("Bookings", (string)null);
+                    b.ToTable("Bookings");
                 });
 
             modelBuilder.Entity("BookingForHumanService.Domain.Entities.Customer", b =>
@@ -116,7 +119,7 @@ namespace BookingForHumanService.Infrastructure.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Customers", (string)null);
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("BookingForHumanService.Domain.Entities.Notification", b =>
@@ -151,7 +154,7 @@ namespace BookingForHumanService.Infrastructure.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Notifications", (string)null);
+                    b.ToTable("Notifications");
                 });
 
             modelBuilder.Entity("BookingForHumanService.Domain.Entities.Provider", b =>
@@ -206,7 +209,7 @@ namespace BookingForHumanService.Infrastructure.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Providers", (string)null);
+                    b.ToTable("Providers");
                 });
 
             modelBuilder.Entity("BookingForHumanService.Domain.Entities.Review", b =>
@@ -249,7 +252,7 @@ namespace BookingForHumanService.Infrastructure.Migrations
 
                     b.HasIndex("ProviderId");
 
-                    b.ToTable("Reviews", null, t =>
+                    b.ToTable("Reviews", t =>
                         {
                             t.HasCheckConstraint("CK_Review_Rating", "[Rating] >= 0.0 AND [Rating] <= 5.0");
                         });
@@ -316,7 +319,7 @@ namespace BookingForHumanService.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User", (string)null);
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("BookingForHumanService.Domain.Entities.UserNotification", b =>
@@ -344,7 +347,7 @@ namespace BookingForHumanService.Infrastructure.Migrations
 
                     b.HasIndex("NotificationId");
 
-                    b.ToTable("UserNotifications", (string)null);
+                    b.ToTable("UserNotifications");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -596,7 +599,7 @@ namespace BookingForHumanService.Infrastructure.Migrations
 
                             b1.HasKey("CustomerId");
 
-                            b1.ToTable("Customers", (string)null);
+                            b1.ToTable("Customers");
 
                             b1.WithOwner()
                                 .HasForeignKey("CustomerId");
@@ -615,7 +618,7 @@ namespace BookingForHumanService.Infrastructure.Migrations
 
                             b1.HasKey("CustomerId");
 
-                            b1.ToTable("Customers", (string)null);
+                            b1.ToTable("Customers");
 
                             b1.WithOwner()
                                 .HasForeignKey("CustomerId");
@@ -634,7 +637,7 @@ namespace BookingForHumanService.Infrastructure.Migrations
 
                             b1.HasKey("CustomerId");
 
-                            b1.ToTable("Customers", (string)null);
+                            b1.ToTable("Customers");
 
                             b1.WithOwner()
                                 .HasForeignKey("CustomerId");
@@ -680,7 +683,7 @@ namespace BookingForHumanService.Infrastructure.Migrations
 
                             b1.HasKey("ProviderId");
 
-                            b1.ToTable("Providers", (string)null);
+                            b1.ToTable("Providers");
 
                             b1.WithOwner()
                                 .HasForeignKey("ProviderId");
@@ -699,7 +702,7 @@ namespace BookingForHumanService.Infrastructure.Migrations
 
                             b1.HasKey("ProviderId");
 
-                            b1.ToTable("Providers", (string)null);
+                            b1.ToTable("Providers");
 
                             b1.WithOwner()
                                 .HasForeignKey("ProviderId");
@@ -718,7 +721,7 @@ namespace BookingForHumanService.Infrastructure.Migrations
 
                             b1.HasKey("ProviderId");
 
-                            b1.ToTable("Providers", (string)null);
+                            b1.ToTable("Providers");
 
                             b1.WithOwner()
                                 .HasForeignKey("ProviderId");

@@ -9,7 +9,7 @@ namespace BookingForHumanService.Infrastructure.Data
 {
     public static class RoleSeeder
     {
-        public  async static Task SeedRolesAsync(RoleManager<IdentityRole> roleManager)
+        public  async static Task SeedRolesAsync(RoleManager<IdentityRole<int>> roleManager)
         {
 
             string[] roles = { "Admin", "Customer", "Provider" };
@@ -17,7 +17,7 @@ namespace BookingForHumanService.Infrastructure.Data
             {
                 if (!await roleManager.RoleExistsAsync(role))
                 {
-                   await roleManager.CreateAsync(new IdentityRole(role));
+                   await roleManager.CreateAsync(new IdentityRole<int>(role));
                 }
             }
         }

@@ -62,6 +62,9 @@ namespace BookingForHumanService.Domain.Entities
             if (review == null)
                 throw new ArgumentNullException(nameof(review));
 
+            if (Status != CustomerStatus.Active)
+                throw new InvalidOperationException("Only active customers can add reviews");
+
             _review.Add(review);
         }
 
