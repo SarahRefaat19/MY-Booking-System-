@@ -7,6 +7,7 @@ namespace BookingForHumanService.Domain.Entities
     {
         //Basic Deatails-----------------------------
         public int Id { get; private set; }
+        public int UserId { get; private set; }   
         public User User { get; private set; }
         public CustomerName Name { get; private set; }
         public CustomerEmail Email { get; private set; }
@@ -39,6 +40,7 @@ namespace BookingForHumanService.Domain.Entities
             User = user ?? throw new ArgumentNullException(nameof(user));
 
         }
+        private Customer() { } // EF Core only
 
         //Busniss rules--------------------
         public void UpdateProfile(CustomerName name, CustomerEmail email, CustomerPhone phone)
@@ -59,6 +61,9 @@ namespace BookingForHumanService.Domain.Entities
         {
             if (review == null)
                 throw new ArgumentNullException(nameof(review));
+
+            if (Status != CustomerStatus.Active)
+                throw new InvalidOperationException("Only active customers can add reviews");
 
             _review.Add(review);
         }

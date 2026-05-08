@@ -10,9 +10,9 @@ namespace BookingForHumanService.Domain.Interfaces
 
         ICustomerRepository Customers { get; }
         IBookingRepository Bookings { get; }
-        IAddressRepository Addresses { get; }
+        //IAddressRepository Addresses { get; }
         IProviderRepository Providers { get; }
-        INotificationRepository Notifications { get; }
+        //INotificationRepository Notifications { get; }
         IReviewRepository Reviews { get; }
 
 

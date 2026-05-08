@@ -38,11 +38,7 @@ namespace BookingForHumanService.Infrastructure.Repositories
             return provider;
 
         }
-        public Task<Provider> UpdateAsync(Provider provider)
-        {
-            _context.Providers.Update(provider);
-            return Task.FromResult(provider);
-        }
+  
         public async Task<Provider> Delete(int Id)
         {
             var provider = await _context.Providers.FindAsync(Id);
@@ -50,7 +46,19 @@ namespace BookingForHumanService.Infrastructure.Repositories
             _context.Providers.Remove(provider);
             return provider;
         }
+        public async Task<Provider> UpdateAsync(Provider provider)
+        {
+            var existing = await _context.Providers.FindAsync(provider.Id);
 
+            if (existing == null)
+                throw new KeyNotFoundException();
+
+            _context.Entry(existing).CurrentValues.SetValues(provider);
+
+            await _context.SaveChangesAsync();
+
+            return existing;
+        }
         public async Task<Provider> GetByEmailAsync(string email)
         {
             var provider = await _context.Providers.FindAsync(email);

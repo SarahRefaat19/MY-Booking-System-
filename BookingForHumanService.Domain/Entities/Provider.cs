@@ -12,6 +12,7 @@ namespace BookingForHumanService.Domain.Entities
     {
 
         public int Id { get; private set; }
+        public int UserId { get; private set; }   
         public User User { get; private set; }
         public ProviderName Name { get; private set; }
 
@@ -22,13 +23,11 @@ namespace BookingForHumanService.Domain.Entities
         public int ExperienceYears { get; private set; }
         public double Rating { get; private set; }
         public int ReviewsCount { get; private set; }
-        public bool IsAvailable { get; private set; }
+        public bool IsAvailable { get;  set; }
         public bool IsActive { get; private set; }
         public string City { get; private set; }
         public string Country { get; private set; }
         public List<string> ServiceCities { get; private set; } = new List<string>();
-
-
         public List<Review> Reviews { get; private set; }
         public List<Booking> Bookings { get; private set; }
 
@@ -46,6 +45,7 @@ namespace BookingForHumanService.Domain.Entities
             Bookings = new List<Booking>();
 
     }
+        private Provider() { } 
         public void UpdateProfile(ProviderName name, ProviderEmail email, ProviderPhone phone)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
@@ -58,9 +58,19 @@ namespace BookingForHumanService.Domain.Entities
         {
             IsAvailable = isAvailable;
         }
-    public void AddReview(Review review)
+        public void AddReview(Review review)
         {
+            if (review == null)
+                throw new ArgumentNullException(nameof(review));
+
+            if (!IsActive)
+                throw new InvalidOperationException("Inactive Provider can not receive reviews. ");
+
             Reviews.Add(review);
+
+            ReviewsCount++; // Increase Reviews Count
+
+            Rating = Reviews.Average(review => review.Rating); // Update Rating
         }
       public void  AddBooking(Booking booking)
         {

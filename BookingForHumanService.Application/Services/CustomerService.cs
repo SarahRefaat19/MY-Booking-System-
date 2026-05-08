@@ -48,6 +48,8 @@ public class CustomerService: ICustomerService
                 throw new Exception("Customer not found");
            
             _mapper.Map(customerUpdateDto, customer);
+            await _unitofwork.SaveChangesAsync();
+
 
             var customerdto = _mapper.Map<CustomerReadDto>(customer);
             return customerdto;

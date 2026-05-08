@@ -14,6 +14,8 @@ namespace BookingForHumanService.Domain.Entities
         public string Region { get; private set; }
         public string Street { get; private set; }
         public int HomeNumber { get; private set; }
+        public Customer Customer { get; private set; }
+
         private Address() { }
 
         public Address(int customerId, string city, string region, string street, int homeNumber)
@@ -32,8 +34,8 @@ namespace BookingForHumanService.Domain.Entities
             IsDefault = false;
         }
 
-        internal void SetAsDefault() => IsDefault = true;
-        internal void RemoveDefault() => IsDefault = false;
+        public void SetAsDefault() => IsDefault = true;
+        public void RemoveDefault() => IsDefault = false;
 
     }
 }

@@ -7,9 +7,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace BookingForHumanService.Application.UseCases.ProviderUseCases
+namespace BookingForHumanService.Application.UseCases.ProviderUseCases.UpdateProfileUseCase
 {
-    public class UpdateProfile
+    public class UpdateProfile :IUpdateProfileUseCase
     {
         private IMapper _mapper;
         private IUnitOfWork _unitOfWork;

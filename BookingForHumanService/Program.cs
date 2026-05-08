@@ -1,13 +1,16 @@
-
 using BookingForHumanService.Application;
+using BookingForHumanService.Domain.Entities;
 using BookingForHumanService.Infrastructure;
-using System;
+using BookingForHumanService.Infrastructure.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
-namespace BookingForHumanService
+using System;
+namespace BookingForHumanService.API
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -15,37 +18,59 @@ namespace BookingForHumanService
 
             builder.Services.AddControllers();
 
-Log.Logger =new LoggerConfiguration().MinimumLevel.Information().WriteTo.Console().WriteTo.File("Logs/log-.txt", rollingInterval:RollingInterval.Day ).CreateLogger();
+
+            // Register Identity Services at DI Container 
+            // UserManger - SingInManger - RoleManger - PasswordHasher - Validators ...
+
+            //builder.Services.AddIdentity<User, IdentityRole<int>>()
+            //    .AddEntityFrameworkStores<BookingDbContext>() // هنا بقوله يخزن فين
+            //    .AddDefaultTokenProviders();
+
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Information()
+                .WriteTo.Console()
+                .WriteTo.File("Logs/log-.txt", rollingInterval: RollingInterval.Day)
+                .CreateLogger();
+
             builder.Host.UseSerilog();
-
-            builder.Services.BookingDbContext<BookingDbContext>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+        
             // add application and infrastructure dependencies
             builder.Services.AddApplicationDependecies();
             builder.Services.AddInfrastructureDependecies(builder.Configuration);
 
-
-            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            // builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider
+                    .GetRequiredService<BookingDbContext>();
+
+                await dbContext.Database.MigrateAsync(); // برضه عشان لو رفعنا على سيرفر الداتا بيز تتعمل
+            }
+
+
+            // Configure the HTTP request pipeline
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
+               
+                // app.UseSwagger();
+              //  app.UseSwaggerUI();
             }
 
             app.UseHttpsRedirection();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
-
+            app.UseSerilogRequestLogging();
             app.MapControllers();
 
             app.Run();
+
         }
     }
 }

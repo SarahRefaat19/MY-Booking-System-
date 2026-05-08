@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BookingForHumanService.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -8,35 +9,37 @@ namespace BookingForHumanService.Domain.Entities
     {
        
 
-          public int Id { get; private set; }
+        public int Id { get; private set; }
 
-        public int UserId { get; private set; }  
+        public TargetType TargetType { get; private set; }
+        public NotificationType Type { get; private set; }
+
         public string Title { get; private set; }
         public string Message { get; private set; }
 
-        public bool IsRead { get; private set; }
         public DateTime CreatedAt { get; private set; }
 
         private Notification() { }
 
-        public Notification(int userId, string title, string message)
+        public Notification( string title, string message, TargetType targetType, NotificationType type)
         {
             if (string.IsNullOrWhiteSpace(title))
                 throw new ArgumentException("Title is required");
             if (string.IsNullOrWhiteSpace(message))
                 throw new ArgumentException("Message is required");
 
-            UserId = userId;
+            if (!Enum.IsDefined(typeof(NotificationType), type)) throw new ArgumentException(" Notification Type Is UnDefined");
+            if (!Enum.IsDefined(typeof(TargetType), targetType)) throw new ArgumentException(" Reciever Type Is UnDefined");
+
+
             Title = title;
+            TargetType =  targetType;
+            Type = type;
             Message = message;
-            IsRead = false;
             CreatedAt = DateTime.UtcNow;
         }
 
-        public void MarkAsRead()
-        {
-            IsRead = true;
-        }
+    
     }
 }
     

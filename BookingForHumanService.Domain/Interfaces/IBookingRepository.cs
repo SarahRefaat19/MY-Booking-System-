@@ -15,6 +15,5 @@ namespace BookingForHumanService.Domain.Interfaces
 
         Task<IReadOnlyList<Booking>> GetByStatusAsync(BookingStatus status);
 
-        Task<IReadOnlyList<Booking>> GetCompletedBookingsAsync();
     }
 }

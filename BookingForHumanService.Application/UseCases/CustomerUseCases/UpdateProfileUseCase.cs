@@ -7,6 +7,7 @@ using BookingForHumanService.Domain.Interfaces;
 using BookingForHumanService.Domain.Entities;
 using BookingForHumanService.Domain.ValueObjects.CustomerValueObjects;
 using BookingForHumanService.Domain.ValueObjects.ProviderValueObjects;
+using BookingForHumanService.Application.DTOs.CustomerDtos;
 
 namespace BookingForHumanService.Application.UseCases.CustomerUseCases
 {
@@ -20,31 +21,30 @@ namespace BookingForHumanService.Application.UseCases.CustomerUseCases
             _mapper = mapper;
             _unitOfWork = unitOfWork;
         }
-        public async Task<ReadProviderDto> UpdateProfile(UpdateProviderDto providerupdatedto) {
-            //Get
-            var provider =  await _unitOfWork.Providers.GetByIdAsync(providerupdatedto.Id);
+        public async Task<CustomerReadDto> UpdateProfile(CustomerUpdateDto customerUpdateDto)
+        {
+            // Get
+            var customer = await _unitOfWork.Customers.GetByIdAsync(customerUpdateDto.Id);
 
-            //check
-
-            if (provider == null)
+            // Check
+            if (customer == null)
             {
-                throw new Exception("Provider Not Found");
+                throw new KeyNotFoundException("Customer Not Found");
             }
 
-            //Update
-            var nameVO = ProviderName.Create(providerupdatedto.Name);
-            var emailVO = ProviderEmail.Create(providerupdatedto.Email);
-            var phoneVO = ProviderPhone.Create(providerupdatedto.Phone);
+            // Value Objects
+            var nameVO = CustomerName.Create(customerUpdateDto.Name);
+            var emailVO = CustomerEmail.Create(customerUpdateDto.Email);
+            var phoneVO = CustomerPhone.Create(customerUpdateDto.Phone);
 
-            provider.UpdateProfile(nameVO, emailVO, phoneVO);                
+            // Domain Update
+            customer.UpdateProfile(nameVO, emailVO, phoneVO);
 
-            //save
-
+            // Save
             await _unitOfWork.SaveChangesAsync();
 
-            //map
-            return _mapper.Map<ReadProviderDto>(provider);
-
+            // Map
+            return _mapper.Map<CustomerReadDto>(customer);
         }
     }
 }

@@ -6,6 +6,8 @@ namespace BookingForHumanService.Application.DTOs.ProviderDtos
 {
     public  class ReadProviderDto
     {
+        public int Id { get; set; }
+
         public string Email { get; set; } = "";
         public string Phone { get; set; } = "";
 
