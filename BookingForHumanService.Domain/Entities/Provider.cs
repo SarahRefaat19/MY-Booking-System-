@@ -28,8 +28,6 @@ namespace BookingForHumanService.Domain.Entities
         public string City { get; private set; }
         public string Country { get; private set; }
         public List<string> ServiceCities { get; private set; } = new List<string>();
-
-
         public List<Review> Reviews { get; private set; }
         public List<Booking> Bookings { get; private set; }
 
@@ -62,7 +60,17 @@ namespace BookingForHumanService.Domain.Entities
         }
         public void AddReview(Review review)
         {
+            if (review == null)
+                throw new ArgumentNullException(nameof(review));
+
+            if (!IsActive)
+                throw new InvalidOperationException("Inactive Provider can not receive reviews. ");
+
             Reviews.Add(review);
+
+            ReviewsCount++; // Increase Reviews Count
+
+            Rating = Reviews.Average(review => review.Rating); // Update Rating
         }
       public void  AddBooking(Booking booking)
         {

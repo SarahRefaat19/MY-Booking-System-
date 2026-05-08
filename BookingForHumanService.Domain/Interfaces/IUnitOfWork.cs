@@ -9,11 +9,11 @@ namespace BookingForHumanService.Domain.Interfaces
 
 
         ICustomerRepository Customers { get; }
-        //IBookingRepository Bookings { get; }
+        IBookingRepository Bookings { get; }
         //IAddressRepository Addresses { get; }
         IProviderRepository Providers { get; }
         //INotificationRepository Notifications { get; }
-        //IReviewRepository Reviews { get; }
+        IReviewRepository Reviews { get; }
 
 
         Task<int> SaveChangesAsync();

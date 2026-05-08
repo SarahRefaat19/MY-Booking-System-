@@ -40,12 +40,10 @@ namespace BookingForHumanService.Infrastructure.Configurations
                    .HasForeignKey(b => b.CustomerId)
                    .OnDelete(DeleteBehavior.Restrict);
 
-          
-
             builder.HasOne(c => c.User)
-       .WithOne()
-       .HasForeignKey<Customer>(c => c.UserId)
-       .OnDelete(DeleteBehavior.Restrict);
+                   .WithOne()
+                   .HasForeignKey<Customer>(c => c.UserId)
+                   .OnDelete(DeleteBehavior.Restrict);
 
 
 

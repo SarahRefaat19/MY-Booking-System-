@@ -41,14 +41,14 @@ namespace BookingForHumanService.Infrastructure.Configurations
        
 
             builder.HasMany(b => b.Bookings)
-       .WithOne(p => p.Provider)
-       .HasForeignKey(b => b.ProviderId)
-       .OnDelete(DeleteBehavior.Restrict);
+                   .WithOne(p => p.Provider)
+                   .HasForeignKey(b => b.ProviderId)
+                   .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(c => c.User)
-           .WithOne()
-           .HasForeignKey<Provider>(c => c.UserId)
-           .OnDelete(DeleteBehavior.Restrict);
+                   .WithOne()
+                   .HasForeignKey<Provider>(c => c.UserId)
+                   .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

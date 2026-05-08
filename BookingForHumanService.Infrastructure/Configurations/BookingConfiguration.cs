@@ -25,6 +25,13 @@ namespace BookingForHumanService.Infrastructure.Configurations
                    .HasForeignKey(b => b.ProviderId)
                    .OnDelete(DeleteBehavior.Restrict);
 
+            // One -> One : Booking ->  Review 
+
+            builder.HasOne(b => b.Review)
+               .WithOne(r => r.Booking)
+               .HasForeignKey<Review>(r => r.BookingId)
+               .OnDelete(DeleteBehavior.Restrict);
+
 
         }
     }

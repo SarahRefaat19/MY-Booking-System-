@@ -7,9 +7,8 @@ namespace BookingForHumanService.Domain.Interfaces
 {
     public interface IReviewRepository: IGenericRepository<Review>
     {
-        Task <IEnumerable<Review>> GetByProviderIdAsync(int ProviderId);
-        Task<IEnumerable<Review>> GetByCustomerIdAsync( int CustomerId);
-        Task <double> GerAvgRatingForProviderAsync (int Price);
-
+        Task <IEnumerable<Review>> GetByProviderIdAsync(int providerId);
+        Task<IEnumerable<Review>> GetByCustomerIdAsync( int customerId);
+        Task <double> GetAvgRatingForProviderAsync (int providerId);
     }
 }
