@@ -51,7 +51,6 @@ namespace BookingForHumanService.Application.Services
 
 
         }
-        
         public async Task<AuthResponseDto> LoginAsync([FromBody] LoginDto loginDto)
         {
            
@@ -82,8 +81,5 @@ namespace BookingForHumanService.Application.Services
                 RefreshToken = refreshToken
             };
         }
-
-     
-
     }
 }

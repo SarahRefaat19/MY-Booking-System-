@@ -15,15 +15,14 @@ namespace BookingForHumanService.Application.Services
         private readonly IBookingRepository _bookingRepository;
         private readonly ICustomerRepository _customerRepository;
         private readonly IProviderRepository _providerRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public BookingService(
-            IBookingRepository bookingRepository,
-            ICustomerRepository customerRepository,
-            IProviderRepository providerRepository)
+        public BookingService(IUnitOfWork unitOfWork)
         {
-            _bookingRepository = bookingRepository;
-            _customerRepository = customerRepository;
-            _providerRepository = providerRepository;
+            _bookingRepository = unitOfWork.Bookings;
+            _customerRepository = unitOfWork.Customers;
+            _providerRepository = unitOfWork.Providers;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<Booking> CreateBookingAsync(int customerId, int providerId, DateTime serviceDate, decimal price, string details)
@@ -39,9 +38,12 @@ namespace BookingForHumanService.Application.Services
 
             var booking = Booking.Create(customer, provider, serviceDate, price, details);
 
-            return await _bookingRepository.AddAsync(booking);
-        }
+            var entity = await _bookingRepository.AddAsync(booking);
 
+            await _unitOfWork.SaveChangesAsync();
+
+            return entity;
+        }
 
         public async Task AcceptBookingAsync(int bookingId)
         {
@@ -50,6 +52,8 @@ namespace BookingForHumanService.Application.Services
 
             booking.Accept();
             await _bookingRepository.UpdateAsync(booking);
+
+            await _unitOfWork.SaveChangesAsync();
         }
 
         public async Task RejectBookingAsync(int bookingId)
@@ -59,6 +63,9 @@ namespace BookingForHumanService.Application.Services
 
             booking.Reject();
             await _bookingRepository.UpdateAsync(booking);
+
+            await _unitOfWork.SaveChangesAsync();
+
         }
 
         public async Task StartBookingAsync(int bookingId)
@@ -68,6 +75,9 @@ namespace BookingForHumanService.Application.Services
 
             booking.Start();
             await _bookingRepository.UpdateAsync(booking);
+
+            await _unitOfWork.SaveChangesAsync();
+
         }
 
         public async Task CancelBookingAsync(int bookingId)
@@ -77,6 +87,9 @@ namespace BookingForHumanService.Application.Services
 
             booking.Cancel();
             await _bookingRepository.UpdateAsync(booking);
+
+            await _unitOfWork.SaveChangesAsync();
+
         }
 
         public async Task CompleteBookingAsync(int bookingId)
@@ -86,8 +99,10 @@ namespace BookingForHumanService.Application.Services
 
             booking.Complete();
             await _bookingRepository.UpdateAsync(booking);
-        }
 
+            await _unitOfWork.SaveChangesAsync();
+
+        }
 
         public async Task<IReadOnlyList<Booking>> GetByCustomerAsync(int customerId)
         {

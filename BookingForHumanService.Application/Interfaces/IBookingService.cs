@@ -10,9 +10,6 @@ namespace BookingForHumanService.Application.Interfaces
 {
     public interface IBookingService
     {
-
-
-
         Task<Booking> CreateBookingAsync(int customerId, int providerId, DateTime serviceDate, decimal price, string details);
 
         Task AcceptBookingAsync(int bookingId);

@@ -11,40 +11,34 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookingForHumanService.Application.Services
 {
-    public  class NotificationService :INotificationService
+    public class NotificationService : INotificationService
     {
-         
+
         private readonly INotificationRepository _notificationRepository;
         private readonly ICustomerRepository _customerRepository;
         private readonly IProviderRepository _providerRepository;
         private readonly IUserNotificationRepository _userNotificationRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        // private static readonly Dictionary<NotificationType, List<TargetType>> Rules = new()
-        // {
-
-        //     { NotificationType.Transactional, new List<TargetType> { TargetType.Customer, TargetType.Provider } },
-        //     { NotificationType.System,new List<TargetType> { TargetType.AllCustomers, TargetType.AllProviders } },
-        //     { NotificationType.Markting, new List<TargetType> { TargetType.AllCustomers }},
-
-        //};
-        public NotificationService(INotificationRepository notificationRepository, IUserNotificationRepository usernotificationRepository, ICustomerRepository customerRepository, IProviderRepository providerRepository)
+        public NotificationService(IUnitOfWork unitOfWork)
         {
-            _notificationRepository = notificationRepository;
-            _userNotificationRepository = usernotificationRepository;
-            _customerRepository = customerRepository;   
-            _providerRepository = providerRepository;
+            _notificationRepository = unitOfWork.Notifications;
+            _userNotificationRepository = unitOfWork.UserNotifications;
+            _customerRepository = unitOfWork.Customers;
+            _providerRepository = unitOfWork.Providers;
+            _unitOfWork = unitOfWork;
         }
-     public async  Task<List<UserNotification>> GetUserNotifications(int userId)
+        public async Task<List<UserNotification>> GetUserNotifications(int userId)
         {
-             return await _userNotificationRepository.GetUserNotifications(userId);
+            return await _userNotificationRepository.GetUserNotifications(userId);
         }
 
-        public async Task SendByTargetUserType( Notification notification, int specificUserId)
+        public async Task SendByTargetUserType(Notification notification, int specificUserId)
         {
             //Save In Db 
-                  await _notificationRepository.AddAsync(notification);
+            await _notificationRepository.AddAsync(notification);
             // Determine Notification Type And Whow Will Receive it using Rules 
-            var receiverIds  = await GetUsersIdsByTargetType(notification.TargetType, specificUserId);
+            var receiverIds = await GetUsersIdsByTargetType(notification.TargetType, specificUserId);
 
 
             // Make user Notification For Each Id 
@@ -60,7 +54,8 @@ namespace BookingForHumanService.Application.Services
 
                 await _userNotificationRepository.AddRangeAsync(batch);
             }
-            
+
+            await _unitOfWork.SaveChangesAsync();
         }
 
 
@@ -84,7 +79,7 @@ namespace BookingForHumanService.Application.Services
         public async Task MarkAsReadAsync(int userNotificationId)
         {
             var usernotification = await _userNotificationRepository.GetByIdAsync(userNotificationId);
-            if(usernotification == null)
+            if (usernotification == null)
             {
                 throw new Exception($"Notification {userNotificationId} not found");
 
@@ -92,6 +87,8 @@ namespace BookingForHumanService.Application.Services
             usernotification.MarkAsRead();
 
             await _userNotificationRepository.UpdateAsync(usernotification);
+
+            await _unitOfWork.SaveChangesAsync();
 
         }
 

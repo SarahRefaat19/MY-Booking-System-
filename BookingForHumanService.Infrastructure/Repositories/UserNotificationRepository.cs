@@ -21,27 +21,22 @@ namespace BookingForHumanService.Infrastructure.Repositories
         public async Task AddRangeAsync(List<UserNotification> notifications)
         {
             await _context.UserNotifications.AddRangeAsync(notifications);
-            await _context.SaveChangesAsync();
         }
+
+        public Task<UserNotification?> GetByIdAsync(int userNotificationId)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<List<UserNotification>> GetUserNotifications(int userId)
         {
             var userNotifications = await _context.UserNotifications.Where(a => a.UserId == userId).ToListAsync();
             return userNotifications;
-
-
         }
 
-        public async Task<UserNotification?> GetByIdAsync(int Id)
-        {
-            var userNotifications = await _context.UserNotifications.FindAsync(Id);
-            return userNotifications;
-
-
-        }
-   public async  Task UpdateAsync(UserNotification userNotification)
+        public async Task UpdateAsync(UserNotification userNotification)
         {
              _context.UserNotifications.Update(userNotification);
         }
-
     }
 }

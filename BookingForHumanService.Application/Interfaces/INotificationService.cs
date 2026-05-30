@@ -12,8 +12,5 @@ namespace BookingForHumanService.Application.Interfaces
         Task MarkAsReadAsync(int userNotificationId);
         Task<List<UserNotification>> GetUserNotifications(int userId);
         Task SendByTargetUserType( Notification notification,int speceficUserId);
-       
-
-
     }
 }

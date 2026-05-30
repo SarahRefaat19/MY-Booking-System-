@@ -15,9 +15,5 @@ namespace BookingForHumanService.Application.Interfaces
         Task<CustomerReadDto> UpdateCustomerAsync(int Id,CustomerUpdateDto customerUpdateDto);
         Task<IReadOnlyList<CustomerReadDto>> GetCustomersPagedAsync(int pageNumber, int pageSize);
         Task <int> GetTotalCustomersCountAsync();
-
-
-
-
     }
 }

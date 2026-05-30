@@ -9,6 +9,5 @@ namespace BookingForHumanService.Domain.Interfaces
     {
         Task <IEnumerable<Review>> GetByProviderIdAsync(int providerId);
         Task<IEnumerable<Review>> GetByCustomerIdAsync( int customerId);
-        Task <double> GetAvgRatingForProviderAsync (int providerId);
     }
 }

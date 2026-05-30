@@ -17,19 +17,18 @@ namespace BookingForHumanService.Infrastructure
         {
             // Register infrastructure services here
             services.AddDbContext<BookingDbContext>(options =>
-           options.UseSqlServer(config.GetConnectionString("DefaultConnection")));
+            options.UseSqlServer(config.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<ICustomerRepository, CustomerRepository>();
 
             services.AddScoped<IProviderRepository, ProviderRepository>();
             services.AddScoped<IBookingRepository, BookingRepository>();
-            services.AddScoped<INotificationRepository , NotificationRepository>();
+            services.AddScoped<INotificationRepository, NotificationRepository>();
             services.AddScoped<IUserNotificationRepository, UserNotificationRepository>();
 
             services.AddScoped<IReviewRepository, ReviewRepository>();
 
-            services.AddScoped<IUnitOfWork, UnitofWork>();
-
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             return services;
         }

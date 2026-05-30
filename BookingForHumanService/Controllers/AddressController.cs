@@ -9,7 +9,6 @@ namespace BookingForHumanService.API.Controllers
 
     [ApiController]
     [Route("api/[controller]")]
-
     public class AddressController : ControllerBase 
     {
         private readonly IAddressService _addressService;
@@ -20,6 +19,8 @@ namespace BookingForHumanService.API.Controllers
             _addressService = addressService;
             _logger = logger;
         }
+
+
         [Authorize(Roles = "Customer")]
 
         [HttpPost("{customerId}")]

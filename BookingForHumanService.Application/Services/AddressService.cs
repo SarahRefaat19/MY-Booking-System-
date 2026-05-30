@@ -14,20 +14,22 @@ using System.Threading.Tasks;
 
 namespace BookingForHumanService.Application.Services
 {
-    public class AddressService :IAddressService
+    public class AddressService : IAddressService
     {
-        private readonly ICustomerRepository _customerRepository;
-        private readonly IAddressRepository _AddressRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public AddressService(ICustomerRepository customerRepository, IAddressRepository AddressRepository, IMapper mapper)
-        { 
-            _customerRepository = customerRepository;
-            _AddressRepository = AddressRepository;
-           _mapper =mapper;
+        private readonly ICustomerRepository _customerRepository;
+        private readonly IAddressRepository _addressRepository;
+
+        public AddressService(IUnitOfWork unitOfWork, IMapper mapper)
+        {
+            _customerRepository = unitOfWork.Customers;
+            _addressRepository = unitOfWork.Addresses;
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
 
         }
-
-      public async  Task<ReadAddressDto> AddAddressAsync(int customerId, AddAddressDto dto)
+        public async Task<ReadAddressDto> AddAddressAsync(int customerId, AddAddressDto dto)
         {
 
             var add = new Address(
@@ -38,14 +40,16 @@ namespace BookingForHumanService.Application.Services
           dto.HomeNumber
       );
 
-            await _AddressRepository.AddAsync(add);
+            await _addressRepository.AddAsync(add);
+            await _unitOfWork.SaveChangesAsync();
+
             var addresss = _mapper.Map<ReadAddressDto>(add);
             return addresss;
         }
         public async Task<IReadOnlyList<ReadAddressDto>> GetUserAddressesAsync(int customerId)
         {
-          
-            var addresses = await _AddressRepository.GetByIdAsync(customerId);
+
+            var addresses = await _addressRepository.GetByIdAsync(customerId);
 
             return _mapper.Map<IReadOnlyList<ReadAddressDto>>(addresses);
         }
@@ -53,14 +57,14 @@ namespace BookingForHumanService.Application.Services
         public async Task SetDefaultAddressAsync(int customerId, int addressId)
         {
             // get all addresses
-            var addresses = await _AddressRepository.GetByUserIdAsync(customerId);
-             //check if find
+            var addresses = await _addressRepository.GetByCustomerIdAsync(customerId);
+            //check if find
             if (addresses == null || !addresses.Any())
                 throw new Exception("No Addresses Found");
             //get this address 
-            var thisaddress = addresses.FirstOrDefault(a=>a.Id == addressId);
+            var thisaddress = addresses.FirstOrDefault(a => a.Id == addressId);
             // check if find
-            if(thisaddress == null)
+            if (thisaddress == null)
             {
                 throw new Exception("This Address Not Found ");
 
@@ -68,10 +72,9 @@ namespace BookingForHumanService.Application.Services
             // iteration on 
             foreach (var address in addresses)
             {
-                if(address.Id == addressId)
+                if (address.Id == addressId)
                 {
                     address.SetAsDefault();
-
                 }
                 else
                 {
@@ -79,41 +82,46 @@ namespace BookingForHumanService.Application.Services
                 }
             }
 
-            foreach(var address in addresses)
+            foreach (var address in addresses)
             {
-                await _AddressRepository.UpdateAsync(address);
-
+                await _addressRepository.UpdateAsync(address);
             }
 
+            await _unitOfWork.SaveChangesAsync();
+
         }
-       
-            public async Task DeleteAddressAsync(int customerId, int addressId)
+
+        public async Task DeleteAddressAsync(int customerId, int addressId)
         {
-            var address = await _AddressRepository.GetByIdAsync(addressId);
+            var address = await _addressRepository.GetByIdAsync(addressId);
 
             if (address == null || address.CustomerId != customerId)
                 throw new Exception("Address not found");
 
             bool wasDefault = address.IsDefault;
 
-            await _AddressRepository.Delete(address.Id);
+            bool result = await _addressRepository.DeleteAsync(address.Id);
+
+            if (!result)
+                throw new InvalidOperationException("Operation Failed");
 
             if (wasDefault)
             {
-                var remainingAddresses = await _AddressRepository.GetByUserIdAsync(customerId);
+                var remainingAddresses = await _addressRepository.GetByCustomerIdAsync(customerId);
 
                 var newDefault = remainingAddresses.FirstOrDefault();
 
                 if (newDefault != null)
                 {
                     newDefault.SetAsDefault();
-                    await _AddressRepository.UpdateAsync(newDefault);
+                    await _addressRepository.UpdateAsync(newDefault);
                 }
             }
+
+
+            await _unitOfWork.SaveChangesAsync();
+
         }
     }
-
-
-
-    }
+}
 

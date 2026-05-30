@@ -10,10 +10,10 @@ using System.Threading.Tasks;
 
 namespace BookingForHumanService.Application.Services
 {
-    public  class JWTService
+    public class JWTService
     {
 
-        public string   GenerateToken(User user )
+        public string GenerateToken(User user)
         {
             var key = new SymmetricSecurityKey(
        Encoding.UTF8.GetBytes("THIS_IS_SUPER_SECRET_KEY_123456")

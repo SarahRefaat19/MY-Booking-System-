@@ -6,15 +6,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookingForHumanService.Infrastructure.Repositories
 {
-    public class BookingRepository : IBookingRepository
+    public class BookingRepository : GenericRepository<Booking>,IBookingRepository
     {
-        private readonly BookingDbContext _context;
-
-        public BookingRepository(BookingDbContext context)
-        {
-            _context = context;
-        }
-
+        public BookingRepository(BookingDbContext context) : base(context) { }
+       
         public async Task<IReadOnlyList<Booking>> GetByCustomerIdAsync(int customerId)
         {
             return await _context.Bookings
@@ -34,51 +29,6 @@ namespace BookingForHumanService.Infrastructure.Repositories
             return await _context.Bookings
                 .Where(b => b.Status == status)
                 .ToListAsync();
-        }
-
-
-
-
-
-        public async Task<IReadOnlyList<Booking>> GetAllAsync()
-        {
-            return await _context.Bookings
-                .AsNoTracking()
-                .ToListAsync();
-        }
-
-        public async Task<Booking?> GetByIdAsync(int id)
-        {
-            return await _context.Bookings
-                .AsNoTracking()
-                .FirstOrDefaultAsync(b => b.Id == id);
-        }
-
-        public async Task<Booking> AddAsync(Booking entity)
-        {
-            await _context.Bookings.AddAsync(entity);
-            await _context.SaveChangesAsync();
-            return entity;
-        }
-
-        public async Task<Booking> UpdateAsync(Booking entity)
-        {
-            _context.Bookings.Update(entity);
-            await _context.SaveChangesAsync();
-            return entity;
-        }
-
-        public async Task<Booking> Delete(int id)
-        {
-            var booking = await _context.Bookings.FindAsync(id);
-
-            if (booking != null)
-            {
-                _context.Bookings.Remove(booking);
-                await _context.SaveChangesAsync();
-            }
-
-            return booking!;
         }
     }
 }

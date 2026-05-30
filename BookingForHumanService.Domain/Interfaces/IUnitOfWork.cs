@@ -12,6 +12,7 @@ namespace BookingForHumanService.Domain.Interfaces
         IProviderRepository Providers { get; }
         INotificationRepository Notifications { get; }
         IReviewRepository Reviews { get; }
+        IUserNotificationRepository UserNotifications { get; }
         Task<int> SaveChangesAsync();
     }
 }

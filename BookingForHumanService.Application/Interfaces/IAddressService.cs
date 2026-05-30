@@ -11,12 +11,9 @@ namespace BookingForHumanService.Application.Interfaces
 {
     public interface  IAddressService
     {
-
         Task<ReadAddressDto> AddAddressAsync(int customerId, AddAddressDto address);
         Task<IReadOnlyList<ReadAddressDto>> GetUserAddressesAsync(int customerId);
         Task SetDefaultAddressAsync(int customerId, int addressId);
         Task DeleteAddressAsync(int customerId, int addressId);
-
-
     }
 }

@@ -69,7 +69,5 @@ namespace BookingForHumanService.API.Controllers
 
             return Ok(ApiResponse<string>.Ok(null!, "Review Deleted"));
         }
-
-
     }
 }

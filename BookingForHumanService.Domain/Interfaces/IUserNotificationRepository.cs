@@ -7,12 +7,11 @@ using System.Threading.Tasks;
 
 namespace BookingForHumanService.Domain.Interfaces
 {
-    public interface IUserNotificationRepository
+    public interface IUserNotificationRepository 
     {
         Task AddRangeAsync(List<UserNotification> notifications);
         Task<List<UserNotification>> GetUserNotifications(int userId);
         Task<UserNotification?> GetByIdAsync(int userNotificationId);
         Task UpdateAsync(UserNotification userNotification);
-
     }
 }

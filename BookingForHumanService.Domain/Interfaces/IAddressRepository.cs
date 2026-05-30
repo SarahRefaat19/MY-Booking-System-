@@ -7,7 +7,6 @@ namespace BookingForHumanService.Domain.Interfaces
 {
     public  interface IAddressRepository :IGenericRepository<Address>
     {
-        Task<IEnumerable<Address>> GetByUserIdAsync(int Id);
-
+        Task<IEnumerable<Address>> GetByCustomerIdAsync(int id);
     }
 }

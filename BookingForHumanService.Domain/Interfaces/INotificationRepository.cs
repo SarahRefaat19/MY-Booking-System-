@@ -5,11 +5,8 @@ using System.Text;
 
 namespace BookingForHumanService.Domain.Interfaces
 {
-    public  interface INotificationRepository
+    public  interface INotificationRepository : IGenericRepository<Notification>
     {
-
-        Task <Notification> GetByIdAsync(int Id);
-        Task AddAsync(Notification notification);
 
     }
 }

@@ -14,7 +14,7 @@ using System.Text;
 
 namespace BookingForHumanService.Application.Services
 {
-    public  class ProviderService :IProviderService 
+    public class ProviderService : IProviderService
     {
         private readonly IMapper _mapper;
         private readonly ILogger<ProviderService> _logger;
@@ -27,9 +27,6 @@ namespace BookingForHumanService.Application.Services
             _unitOfWork = unitOfWork;
 
         }
-
-
-
         public async Task<IReadOnlyList<ReadProviderDto>> GetAllAsync()
         {
             _logger.LogInformation("Getting all providers");
@@ -50,7 +47,7 @@ namespace BookingForHumanService.Application.Services
             }
 
 
-            return  _mapper.Map<ReadProviderDto>(provider);
+            return _mapper.Map<ReadProviderDto>(provider);
         }
 
 
@@ -63,7 +60,7 @@ namespace BookingForHumanService.Application.Services
             if (provider == null)
                 throw new InvalidOperationException("Provider Not Found");
 
-      _mapper.Map(dto, provider);
+            _mapper.Map(dto, provider);
 
             await _unitOfWork.SaveChangesAsync();
             var updated = _mapper.Map<ReadProviderDto>(provider);
@@ -94,7 +91,7 @@ namespace BookingForHumanService.Application.Services
             if (provider == null)
                 throw new InvalidOperationException("Provider Not Found");
 
-         await   _unitOfWork.Providers.Delete(id);
+            await _unitOfWork.Providers.DeleteAsync(id);
             await _unitOfWork.SaveChangesAsync();
         }
 
@@ -146,7 +143,7 @@ namespace BookingForHumanService.Application.Services
 
             provider.UpdateAvailability(isAvailable);
 
-
+            await _unitOfWork.SaveChangesAsync();
 
         }
 

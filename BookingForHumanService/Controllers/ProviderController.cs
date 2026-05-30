@@ -29,7 +29,7 @@ namespace BookingForHumanService.API.Controllers
         private readonly IUpdateProfileUseCase _updateProfileUseCase;
 
 
-        private ProviderController(ILogger<ProviderController> logger, IProviderService providerService, ISetAvailability setAvailabilityUseCase, IUpdateProfileUseCase updateProfileUseCase)
+        public ProviderController(ILogger<ProviderController> logger, IProviderService providerService, ISetAvailability setAvailabilityUseCase, IUpdateProfileUseCase updateProfileUseCase)
         {
             _logger = logger;
             _providerService = providerService;
@@ -136,22 +136,7 @@ namespace BookingForHumanService.API.Controllers
             _logger.LogInformation("Getting Top Rated Providers ");
             var providers = await _providerService.GetTopRatedAsync(count);
             return Ok(ApiResponse<IReadOnlyList<ReadProviderDto>>.Ok(providers));
-           }
-
-
-        //  IsAvailable
-
-        //[HttpGet("check-availability")]
-        //public async Task<IActionResult> IsAvailableProviderAsync(int id)
-        //{
-        //    _logger.LogInformation("Checking provider availability for id {ProviderId}", id);
-
-        //    var isAvailable = await _providerService.IsAvailableAsync(id);
-
-        //    return Ok(isAvailable);
-        //}
-
-
+        }
 
         [Authorize(Roles = "Provider")]
 
@@ -161,14 +146,11 @@ namespace BookingForHumanService.API.Controllers
         public async Task<IActionResult> SetAvailabiltyAsync(int id, bool isAvailable)
         {
             _logger.LogInformation("Setting availability for provider {ProviderId} to {IsAvailable}", id, isAvailable);
-            await _providerService.SetAvailabilityAsync(id,isAvailable);
-
+            await _providerService.SetAvailabilityAsync(id, isAvailable);
 
             return Ok(isAvailable);
 
         }
-
-
     }
-    }
+}
 
