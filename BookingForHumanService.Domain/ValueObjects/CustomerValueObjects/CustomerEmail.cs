@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace BookingForHumanService.Domain.ValueObjects.CustomerValueObjects
 {
- public  sealed class CustomerEmail
+    public sealed class CustomerEmail
     {
         public string Value { get; }
 
@@ -32,24 +32,21 @@ namespace BookingForHumanService.Domain.ValueObjects.CustomerValueObjects
         public static bool IsValidEmail(string email)
         {
             var shape = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
-        return Regex.IsMatch(email, shape ,RegexOptions.IgnoreCase);
+            return Regex.IsMatch(email, shape, RegexOptions.IgnoreCase);
         }
         // compare with value
         public override bool Equals(object? obj)
-            {
+        {
 
-            if (obj is  not CustomerEmail other )
+            if (obj is not CustomerEmail other)
                 return false;
             return Value.Equals(other.Value, StringComparison.OrdinalIgnoreCase);
-            }
+        }
 
         public override int GetHashCode() => Value.ToLowerInvariant().GetHashCode();
 
         public override string ToString() => Value;
-
-
-
-        }
-
     }
+
+}
 

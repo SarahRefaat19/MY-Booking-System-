@@ -4,11 +4,10 @@ using System.Text;
 
 namespace BookingForHumanService.Domain.Entities
 {
-  public class Address
+    public class Address
     {
-        public int  Id { get; private set; }
-
-        public bool IsDefault { get; private set; } 
+        public int Id { get; private set; }
+        public bool IsDefault { get; private set; }
         public int CustomerId { get; private set; }
         public string City { get; private set; }
         public string Region { get; private set; }

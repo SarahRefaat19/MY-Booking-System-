@@ -13,32 +13,32 @@ namespace BookingForHumanService.Domain.Entities
         public CustomerEmail Email { get; private set; }
         public CustomerPhone Phone { get; private set; }
         public CustomerStatus Status { get; private set; }
-        private List<int> _favouriteProviderIds = new();
+        private List<int> _favouriteProviderIds = new(); // Return Again 
 
         //Relations ----------------------------------
 
 
-        private List<Booking> _booking = new();
-        private List<Review> _review = new();
+        private List<Booking> _bookings = new();
+        private List<Review> _reviews = new();
         private List<Address> _addresses = new();
         private List<Notification> _notifications = new();
 
 
         //For Encapsulation----------------------------
 
-        public IReadOnlyList<Booking> Bookings => _booking.AsReadOnly();
-        public IReadOnlyList<Review> Reviews => _review.AsReadOnly();
+        public IReadOnlyList<Booking> Bookings => _bookings.AsReadOnly();
+        public IReadOnlyList<Review> Reviews => _reviews.AsReadOnly();
         public IReadOnlyList<Address> Addresses => _addresses.AsReadOnly();
         public IReadOnlyList<Notification> Notifications => _notifications.AsReadOnly();
 
-        public Customer(User user , CustomerName name , CustomerEmail email , CustomerPhone phone , CustomerStatus status) {
+        public Customer(User user, CustomerName name, CustomerEmail email, CustomerPhone phone, CustomerStatus status)
+        {
 
-             Name = name ?? throw new ArgumentNullException(nameof(name));
-            Email= email  ?? throw new ArgumentNullException(nameof(email));
-            Phone = phone?? throw new ArgumentNullException(nameof(phone));
+            Name = name ?? throw new ArgumentNullException(nameof(name));
+            Email = email ?? throw new ArgumentNullException(nameof(email));
+            Phone = phone ?? throw new ArgumentNullException(nameof(phone));
             Status = status;
             User = user ?? throw new ArgumentNullException(nameof(user));
-
         }
         private Customer() { } // EF Core only
 
@@ -54,7 +54,7 @@ namespace BookingForHumanService.Domain.Entities
         public void AddBooking(Booking booking){
             if (booking == null)
                 throw new ArgumentNullException(nameof(booking));
-            _booking.Add(booking);
+            _bookings.Add(booking);
         }
 
         public void AddReview(Review review)
@@ -65,9 +65,8 @@ namespace BookingForHumanService.Domain.Entities
             if (Status != CustomerStatus.Active)
                 throw new InvalidOperationException("Only active customers can add reviews");
 
-            _review.Add(review);
+            _reviews.Add(review);
         }
-
 
         public void AddAddress(Address address)
         {
@@ -75,10 +74,8 @@ namespace BookingForHumanService.Domain.Entities
                 throw new ArgumentNullException(nameof(address));
 
             if (address.IsDefault)
-            {
                 foreach (var addr in _addresses)
                     addr.RemoveDefault();
-            }
 
             _addresses.Add(address);
         }

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace BookingForHumanService.Domain.ValueObjects.CustomerValueObjects
 {
-    public sealed class CustomerName 
+    public sealed class CustomerName
     {
         public string Name { get; }
         private CustomerName(string name)
@@ -18,9 +18,9 @@ namespace BookingForHumanService.Domain.ValueObjects.CustomerValueObjects
             {
                 throw new ArgumentNullException(" Enter Your Name ");
             }
-            name=name.Trim();
+            name = name.Trim();
 
-            if(name.Length < 3)
+            if (name.Length < 3)
             {
                 throw new ArgumentNullException(" Your Name is too Short ");
 
@@ -36,11 +36,8 @@ namespace BookingForHumanService.Domain.ValueObjects.CustomerValueObjects
         }
 
         public override int GetHashCode() => Name.ToLowerInvariant().GetHashCode();
-     
-
-         }   
-
-
 
     }
+
+}
 

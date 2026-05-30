@@ -18,8 +18,8 @@ namespace BookingForHumanService.Infrastructure.UnitOfWorks
 
             Bookings = new BookingRepository(_context);
             Reviews = new ReviewRepository(_context);
-            //Addresses = new AddressRepository(_context);
-            //Notifications = new NotificationRepository(_context);
+            Addresses = new AddressRepository(_context);
+            Notifications = new NotificationRepository(_context);
 
 
         }
@@ -27,8 +27,8 @@ namespace BookingForHumanService.Infrastructure.UnitOfWorks
         public IProviderRepository Providers { get; private set; }
         public IBookingRepository Bookings { get; private set; }
         public IReviewRepository Reviews { get; private set; }
-        IAddressRepository Addresses { get; }
-        INotificationRepository Notifications { get; }
+        public IAddressRepository Addresses { get; }
+        public INotificationRepository Notifications { get;}
 
         public async Task<int> SaveChangesAsync()
         {

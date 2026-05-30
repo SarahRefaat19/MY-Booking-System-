@@ -7,19 +7,17 @@ using Microsoft.AspNetCore.Identity;
 
 namespace BookingForHumanService.Domain.Entities
 {
-  
-public class User :IdentityUser<int>
+
+    public class User : IdentityUser<int>
     {
+        public UserRole Role { get; set; }
 
-     
-        public UserRole Role { get;  set; } 
-
-        public string? RefreshToken  { get; set; }
+        public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenExpiryTime { get; set; }
-     
-       
 
-        
+
+
+
 
         //public User( int id, string hashPassword, UserRole role, string? refreshToken, DateTime? refreshTokenExpiryTime)
         //{
@@ -46,7 +44,7 @@ public class User :IdentityUser<int>
             RefreshTokenExpiryTime = expiryTime;
         }
 
-    
+
     }
 
 }

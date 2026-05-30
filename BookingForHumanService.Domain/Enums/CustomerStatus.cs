@@ -6,9 +6,9 @@ namespace BookingForHumanService.Domain.Enums
 {
     public enum CustomerStatus
     {
-      Active,
-      Suspended,
-      Blocked,
-      Deleted  
+        Active,
+        Suspended,
+        Blocked,
+        Deleted
     }
 }

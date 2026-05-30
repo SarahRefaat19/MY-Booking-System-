@@ -31,8 +31,6 @@ namespace BookingForHumanService.Domain.Entities
         private Booking(Customer _Customer, Provider _Provider, DateTime _ServiceDate, decimal _Price, string _Details)
         {
             Customer = _Customer ?? throw new ArgumentNullException(nameof(_Customer));
-            Provider = _Provider ?? throw new ArgumentNullException(nameof(_Provider));
-
             BookingDate = DateTime.UtcNow;
             ServiceDate = _ServiceDate;
             Status = BookingStatus.Pending;
@@ -101,11 +99,11 @@ namespace BookingForHumanService.Domain.Entities
 
         public void AddReview(Review review)
         {
-            if (review == null)
-                throw new ArgumentNullException(nameof(review));
-
             if (Status != BookingStatus.Completed)
                 throw new InvalidOperationException("Cannot review incomplete booking");
+
+            if (review == null)
+                throw new ArgumentNullException(nameof(review));
 
             if (Review != null)
                 throw new InvalidOperationException("Booking already reviewed");
@@ -113,5 +111,5 @@ namespace BookingForHumanService.Domain.Entities
             Review = review;
         }
     }
-    
+
 }

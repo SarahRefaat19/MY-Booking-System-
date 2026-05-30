@@ -12,8 +12,8 @@ namespace BookingForHumanService.Infrastructure.Repositories
 {
     public  class AddressRepository :IAddressRepository
     {
-        private readonly BookingDbContext _Context;
-        private AddressRepository(BookingDbContext context)
+        public readonly BookingDbContext _Context;
+        public AddressRepository(BookingDbContext context)
         {
             _Context = context;
         }

@@ -17,5 +17,4 @@ namespace BookingForHumanService.Application.DTOs.AuthDtos
         public UserRole role { get; set; }
 
     }
-
 }

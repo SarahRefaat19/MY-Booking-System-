@@ -49,6 +49,10 @@ namespace BookingForHumanService.API
                 var dbContext = scope.ServiceProvider
                     .GetRequiredService<BookingDbContext>();
 
+                var roleManger = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<int>>>();
+
+                await RoleSeeder.SeedRolesAsync(roleManger);
+
                 await dbContext.Database.MigrateAsync(); // برضه عشان لو رفعنا على سيرفر الداتا بيز تتعمل
             }
 

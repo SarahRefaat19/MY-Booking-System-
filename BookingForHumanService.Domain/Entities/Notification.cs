@@ -5,10 +5,8 @@ using System.Text;
 
 namespace BookingForHumanService.Domain.Entities
 {
-   public class Notification
+    public class Notification
     {
-       
-
         public int Id { get; private set; }
 
         public TargetType TargetType { get; private set; }
@@ -21,7 +19,7 @@ namespace BookingForHumanService.Domain.Entities
 
         private Notification() { }
 
-        public Notification( string title, string message, TargetType targetType, NotificationType type)
+        public Notification(string title, string message, TargetType targetType, NotificationType type)
         {
             if (string.IsNullOrWhiteSpace(title))
                 throw new ArgumentException("Title is required");
@@ -33,13 +31,11 @@ namespace BookingForHumanService.Domain.Entities
 
 
             Title = title;
-            TargetType =  targetType;
+            TargetType = targetType;
             Type = type;
             Message = message;
             CreatedAt = DateTime.UtcNow;
         }
-
-    
     }
 }
-    
+

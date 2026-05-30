@@ -5,10 +5,10 @@ using System.Text;
 
 namespace BookingForHumanService.Domain.Entities
 {
- public class Review
+    public class Review
     {
         public int Id { get; private set; }
-      
+
         public double Rating { get; private set; }
         public string Comment { get; private set; }
         public DateTime CreatedAt { get; private set; }
@@ -28,9 +28,9 @@ namespace BookingForHumanService.Domain.Entities
         /// for analysis and support the collections exist at customer and provider [forgien key]
         public int CustomerId { get; private set; }
         public int ProviderId { get; private set; }
-        private Review() { } 
+        private Review() { }
 
-        public Review(Booking booking, double rating, string comment)
+        public Review(Booking booking, double rating, string? comment)
         {
 
             Booking = booking ?? throw new ArgumentNullException(nameof(booking));

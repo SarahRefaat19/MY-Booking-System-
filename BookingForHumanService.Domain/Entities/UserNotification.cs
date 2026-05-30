@@ -10,13 +10,13 @@ namespace BookingForHumanService.Domain.Entities
     {
         public int Id { get; private set; }
 
-        public int UserId { get;  set; }
-        public int NotificationId { get;  set; }
+        public int UserId { get; set; }
+        public int NotificationId { get; set; }
         public bool IsRead { get; private set; }
         public DateTime? ReadAt { get; private set; }
 
         public Notification Notification { get; private set; }
-        private UserNotification() { } 
+        private UserNotification() { }
 
         public UserNotification(int userId, int notificationId)
         {
@@ -27,18 +27,11 @@ namespace BookingForHumanService.Domain.Entities
 
         public void MarkAsRead()
         {
-            if(IsRead) return ;
+            if (IsRead) return;
 
             IsRead = true;
             ReadAt = DateTime.UtcNow;
-
         }
-
-
-
-
-
-
 
     }
 

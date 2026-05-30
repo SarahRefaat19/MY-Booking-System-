@@ -4,10 +4,10 @@ using System.Text;
 
 namespace BookingForHumanService.Domain.ValueObjects.CustomerValueObjects
 {
- public sealed class CustomerPhone
+    public sealed class CustomerPhone
     {
         public string Value { get; }
-        public CustomerPhone( string phone) 
+        public CustomerPhone(string phone)
         {
 
             Value = phone;
@@ -20,7 +20,7 @@ namespace BookingForHumanService.Domain.ValueObjects.CustomerValueObjects
             {
                 throw new ArgumentNullException("Enter Your Phone ");
             }
-            if(!phone.All(char.IsDigit) && !phone.StartsWith("+") )
+            if (!phone.All(char.IsDigit) && !phone.StartsWith("+"))
             {
                 throw new ArgumentException("Invalid Number");
             }

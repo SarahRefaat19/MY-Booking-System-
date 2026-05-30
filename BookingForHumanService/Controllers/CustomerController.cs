@@ -120,8 +120,6 @@ namespace BookingForHumanService.API.Controllers
         }
         [Authorize(Roles ="Customer")]
         [HttpPut("profile")]
-
-
         public async Task<IActionResult> UpdateProfileAsync( CustomerUpdateDto dto)
         {
         

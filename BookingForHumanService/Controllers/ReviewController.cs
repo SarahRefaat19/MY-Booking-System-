@@ -1,6 +1,7 @@
 ﻿using BookingForHumanService.API.Response;
 using BookingForHumanService.Application.DTOs.ReviewDtos;
 using BookingForHumanService.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,6 +18,7 @@ namespace BookingForHumanService.API.Controllers
             _reviewService = reviewService;
         }
 
+        [Authorize(Roles ="Customer")]
         [HttpPost]
         public async Task<ActionResult<ApiResponse<ReadReviewDto>>> 
             AddReview([FromBody] AddReviewDto dto)
@@ -47,6 +49,7 @@ namespace BookingForHumanService.API.Controllers
             return Ok(ApiResponse<IReadOnlyList<ReadReviewDto>>.Ok(reviews));
         }
 
+        [Authorize(Roles ="Customer")]
         [HttpPut("{reviewId}")]
         public async Task<ActionResult<ApiResponse<ReadReviewDto>>> 
             UpdateReview(int reviewId, [FromBody]UpdateReviewDto dto)
@@ -58,6 +61,7 @@ namespace BookingForHumanService.API.Controllers
 
 
         [HttpDelete("{reviewId}")]
+        [Authorize(Roles ="Customer,Admin")]
         public async Task<ActionResult<ApiResponse<string>>>
             DeleteReview(int reviewId)
         {

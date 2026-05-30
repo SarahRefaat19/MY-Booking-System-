@@ -2,21 +2,13 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.AspNetCore.Identity;
 
 namespace BookingForHumanService.Infrastructure.Data
 {
     public class BookingDbContext : IdentityDbContext<User, IdentityRole<int>, int>
     {
-        public BookingDbContext(DbContextOptions<BookingDbContext> options)
-     : base(options)
-        {
-        }
+        public BookingDbContext(DbContextOptions<BookingDbContext> options) : base(options) { }
 
-        
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Notification> Notifications { get; set; }

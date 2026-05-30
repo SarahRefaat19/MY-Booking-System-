@@ -40,7 +40,6 @@ namespace BookingForHumanService.API.Controllers
             });
         }
 
-
         [HttpPost("{id}/accept")]
         public async Task<IActionResult> Accept(int id)
         {
